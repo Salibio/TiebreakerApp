@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../services/decision_service.dart';
+import 'results_screen.dart';
+
+class ProcessingScreen extends StatefulWidget {
+
+  final String decision;
+
+  const ProcessingScreen ({required this.decision, super.key});
+
+  @override
+  State<ProcessingScreen> createState() => _ProcessingScreenState();
+
+}
+
+class _ProcessingScreenState extends State<ProcessingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final ds = Provider.of<DecisionService>(context, listen: false);
+
+      await ds.analyzeDecision(widget.decision);
+
+      if (mounted && ds.errorMessage == null) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ResultsScreen()));
+      }
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+}
