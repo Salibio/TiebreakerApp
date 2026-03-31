@@ -20,7 +20,7 @@ class DecisionService extends ChangeNotifier {
       final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
       final prompt = '''
       You are an expert decision-making assistant. The user is tring to make a decision "$decisionPrompt".
-      Please provide exactly 3 sections of markdown:
+      Please provide exactly 3 sections of markdown(Each section must be Header 3 '###'gi):
       
       1. ### Pros and Cons lists
       
